@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <springProfile name="master, slave">
+        <!-- configuration to be enabled when the "dev" or "staging" profiles are active -->
+    </springProfile>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are  by default assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] [%thread] [%logger{36}] --- %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="rollingfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>tode-cloud-config.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>tode-cloud-config-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- each file should be at most 200MB, keep 10 days worth of history, but at most 1GB -->
+            <maxFileSize>200MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 以下分别针对不同lib设置日志级别 -->
+
+    <!-- 系统日志级别 默认-->
+    <root level="INFO">
+        <!--<appender-ref ref="STDOUT"/>-->
+        <!--<appender-ref ref="rollingfile"/>-->
+    </root>
+</configuration>

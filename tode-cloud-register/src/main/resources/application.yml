@@ -1,0 +1,73 @@
+### 开发时，从本地获取，后续改为从config server获取配置 ###
+info:
+  component: tode-cloud-register
+
+server:
+  port: 8882
+
+management:
+  context-path: /admin
+  security:
+    enabled: false
+
+logging:
+  level:
+#    com.netflix.discovery: 'OFF'
+    root: 'INFO'
+
+spring:
+  main:
+    banner-mode: "off"
+  output:
+    ansi:
+      enabled: always
+
+#eureka.config
+eureka:
+  instance:
+    hostname: 192.168.1.88
+    prefer-ip-address: true
+  client:
+    region: default
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+
+---
+spring:
+  profiles: node1
+eureka:
+  instance:
+    hostname: node1
+    prefer-ip-address: true
+    status-page-url-path: /info
+    health-check-url-path: /health
+  client:
+    region: default
+    register-with-eureka: true
+    on-demand-update-status-change: true
+    service-url:
+      defaultZone: http://node2:${server.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+
+---
+spring:
+  profiles: node2
+eureka:
+  instance:
+    hostname: node2
+    prefer-ip-address: true
+    status-page-url-path: /info
+    health-check-url-path: /health
+  client:
+    region: default
+    register-with-eureka: true
+    on-demand-update-status-change: true
+    service-url:
+      defaultZone: http://node1:${server.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0

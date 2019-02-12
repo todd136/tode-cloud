@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: tode-cloud-demoservice
+  cloud:
+    config:
+      uri: http://192.168.1.88:${config.port:8881}
+#      uri: ${CONFIG_SERVER_URI:${vcap.services.${PREFIX:}configserver.credentials.uri:http://192.168.1.88:8881}}

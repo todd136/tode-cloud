@@ -1,0 +1,36 @@
+server:
+  port: 8881
+
+management:
+  context-path: /admin
+  security:
+    enabled: false
+
+logging:
+  level:
+    root: 'INFO'
+
+#spring.config
+spring:
+#  main:
+#    banner-mode: "off"
+  output:
+    ansi:
+      enabled: always
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/todd136/tode-cloudconfig
+          searchPaths: '{application}'
+          force-pull: true
+#          username: username
+#          password: password
+
+---
+spring:
+  profiles: dev
+
+---
+spring:
+  profiles: cloud

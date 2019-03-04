@@ -32,17 +32,17 @@ management:
 
 #eureka.client.config
 eureka:
-  instance:
-    hostname: 192.168.1.88
-    prefer-ip-address: true
+  instance: # 本服务注册到eureka时，关于本服务的元数据
+#    hostname: 192.168.1.67 #人为指定本服务的hostname
+    prefer-ip-address: true #使用prefer-ip-address，想eureka发送ip替代hostname
     status-page-url-path: /info
     health-check-url-path: /path
     lease-renewal-interval-in-seconds: 10
-#    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
   client:
     region: default
     service-url:
-      defaultZone: http://192.168.1.88:8882/eureka
+      defaultZone: http://192.168.1.67:8882/eureka
 
 feign:
   compression:

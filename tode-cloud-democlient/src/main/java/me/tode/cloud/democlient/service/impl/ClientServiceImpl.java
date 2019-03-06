@@ -5,9 +5,11 @@ import me.tode.cloud.democlient.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.List;
@@ -22,17 +24,20 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Override
     @HystrixCommand(defaultFallback = "productMessageDefault")
     public String productMessage() {
         List<ServiceInstance> infos = discoveryClient.getInstances("tode-cloud-demoservice");
-        logger.info("中文cloud service id = " + infos.get(0).getServiceId());
+        logger.info("cloud service id = " + infos.get(0).getServiceId());
         ServiceInstance serviceInstance = infos.get(0);
 //            String host = serviceInstance.getHost();
 //            int port = serviceInstance.getPort();
         URI uri = serviceInstance.getUri();
 
-        return "中文cloud service uri = " + uri;
+        return "cloud service uri = " + uri;
     }
 
     /**
@@ -43,5 +48,30 @@ public class ClientServiceImpl implements ClientService {
     public String productMessageDefault(Throwable e) {
         logger.info(e.toString());
         return "message produced by hystrix default method";
+    }
+
+    /**
+     * use fallbackMethod & private fallback method
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "reliable")
+    public String readingList() {
+        List<ServiceInstance> infos = discoveryClient.getInstances("tode-cloud-demoservice");
+        ServiceInstance serviceInstance = infos.get(0);
+
+        URI uri = URI.create(serviceInstance.getUri() + "/microservice/recommended");
+
+        String result = this.restTemplate.getForObject(uri, String.class);
+
+        return result;
+    }
+
+    /**
+     * private fallback method.
+     * @return
+     */
+    private String reliable(Throwable e) {
+        logger.info(e.toString());
+        return "Cloud Native Java (O'Reilly)";
     }
 }

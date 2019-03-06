@@ -26,4 +26,9 @@ public class ClientController {
     public String produceMessage() {
         return clientService.productMessage();
     }
+
+    @RequestMapping("/to-read")
+    public String toRead() {
+        return clientService.readingList();
+    }
 }

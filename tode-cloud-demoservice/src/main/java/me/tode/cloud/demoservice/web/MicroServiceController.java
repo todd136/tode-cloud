@@ -23,4 +23,9 @@ public class MicroServiceController {
     public String produceMessage() {
         return "This message came from remote server through discovery server(中文)" + RandomUtils.nextInt();
     }
+
+    @RequestMapping(value = "/recommended")
+    public String readingList(){
+        return "Spring in Action (Manning), Cloud Native Java (O'Reilly), Learning Spring Boot (Packt)";
+    }
 }

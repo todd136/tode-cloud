@@ -1,0 +1,6 @@
+info:
+  component: tode-cloud-hystrixdashboard
+
+server:
+  port: 7979
+

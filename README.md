@@ -16,8 +16,12 @@ tode-cloud，基于Spring Boot、Spring Cloud框架的微服务，用于服务�
   tode-cloud-demoservice 
   微服务service demo，用来提供service
 ```
-```//TODO 
-
+```
   tode-cloud-democlient 
   微服务client demo，用来模拟请求微服务的客户端
+  使用Hystrix组件实现熔断、输出/hystrix.stream到dashboard
+```
+```
+  tode-cloud-hystrixdashboard
+  微服务hystrix-dashboard组件，用于展示hystix-client提供的/hystrix.stream流。
 ```

@@ -12,6 +12,7 @@
 		<module>tode-cloud-demoservice</module>
 		<module>tode-cloud-democlient</module>
 		<module>tode-cloud-hystrixdashboard</module>
+		<module>tode-cloud-demoservice2</module>
 	</modules>
 	<packaging>pom</packaging>
 

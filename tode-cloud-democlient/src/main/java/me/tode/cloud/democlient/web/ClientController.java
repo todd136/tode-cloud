@@ -31,4 +31,9 @@ public class ClientController {
     public String toRead() {
         return clientService.readingList();
     }
+
+    @RequestMapping("/test-load-balancer")
+    public String produceMessageByLoadBalancer() {
+        return clientService.productMessageByLoadBalancer();
+    }
 }

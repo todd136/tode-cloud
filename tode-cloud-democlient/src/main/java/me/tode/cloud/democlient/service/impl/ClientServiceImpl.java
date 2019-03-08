@@ -1,13 +1,14 @@
 package me.tode.cloud.democlient.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.sun.jndi.toolkit.url.Uri;
 import me.tode.cloud.democlient.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +21,9 @@ public class ClientServiceImpl implements ClientService {
      * 日志记录工具
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private LoadBalancerClient loadBalancer;
 
     @Autowired
     private DiscoveryClient discoveryClient;
@@ -73,5 +77,13 @@ public class ClientServiceImpl implements ClientService {
     private String reliable(Throwable e) {
         logger.info(e.toString());
         return "Cloud Native Java (O'Reilly)";
+    }
+
+    @HystrixCommand(defaultFallback = "productMessageDefault")
+    public String productMessageByLoadBalancer() {
+        ServiceInstance serviceInstance = loadBalancer.choose("tode-cloud-demoservice");
+        URI uri = URI.create(String.format("http://%s:%s", serviceInstance.getHost(), serviceInstance.getPort()) + "/microservice/test");
+
+        return this.restTemplate.getForObject(uri, String.class);
     }
 }

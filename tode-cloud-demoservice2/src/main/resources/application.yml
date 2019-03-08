@@ -1,0 +1,50 @@
+### 开发时，从本地获取，后续改为从config server获取配置 ###
+info:
+  component: tode-cloud-demoservice
+
+server:
+  port: 8084
+  maxHttpHeaderSize: 8192
+
+#spring.config
+spring:
+  main:
+    banner-mode: "console"
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
+#    favicon:
+#      enabled: true
+
+
+#logging.config 可以使用logback-spring.xml来配置日志
+logging:
+  level:
+    com.sun: 'OFF'
+    com.netflix.discovery: 'OFF'
+    org.springframework.aop: 'OFF'
+    org.springframework.boot.autoconfigure.logging: 'OFF'
+    root: 'INFO'
+
+management:
+  context-path: /admin
+
+#eureka.client.config
+eureka:
+  instance: # 本服务注册到eureka时，关于本服务的元数据
+#    hostname: 192.168.1.67 #人为指定本服务的hostname
+    prefer-ip-address: true #使用prefer-ip-address，想eureka发送ip替代hostname
+    status-page-url-path: /info
+    health-check-url-path: /path
+    lease-renewal-interval-in-seconds: 10
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  client:
+    region: default
+    service-url:
+      defaultZone: http://192.168.1.67:8882/eureka
+
+feign:
+  compression:
+    request:
+      mime-types: text/xml, application/xml, application/json

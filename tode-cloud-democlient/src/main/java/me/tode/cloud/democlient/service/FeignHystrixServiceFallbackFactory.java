@@ -7,12 +7,7 @@ import org.springframework.stereotype.Component;
 public class FeignHystrixServiceFallbackFactory implements FallbackFactory<FeignHystrixService> {
 
     @Override
-    public FeignHystrixService create(Throwable throwable) { // todo lambda
-        return new FeignHystrixService() {
-            @Override
-            public String getFromServerByFeignHystrix() {
-                return "getFromServerByFeignHystrix fallback, reason is " + throwable.getCause();
-            }
-        };
+    public FeignHystrixService create(Throwable throwable) {
+        return () -> "getFromServerByFeignHystrix fallback, reason is " + throwable.getCause();
     }
 }

@@ -1,7 +1,6 @@
 package me.tode.cloud.democlient.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.sun.jndi.toolkit.url.Uri;
 import me.tode.cloud.democlient.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

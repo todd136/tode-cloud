@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,8 +26,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableAutoConfiguration
 @ComponentScan
 @ServletComponentScan //servlet 扫描，@webfilter @WebServlet等
-@EnableEurekaClient
+@EnableEurekaClient // Eureka client
 @EnableCircuitBreaker // 熔断
+@EnableFeignClients // feign client
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

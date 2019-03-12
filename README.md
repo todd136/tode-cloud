@@ -30,4 +30,11 @@ tode-cloud，基于Spring Boot、Spring Cloud框架的微服务，用于服务�
   tode-cloud-demoservice2
   微服务service demo，复制自tode-cloud-demoservice，用于提供与tode-cloud-demoservice同名的service
   在client中，使用Netflix Ribbon的api进行LoadBalancer调用
-``'
+```
+```
+  Spring Cloud integrates Ribbon and Eureka to provide a load balanced http client when using Feign.
+  1. tode-cloud-democlient 增加 spring-cloud-starter-feign 依赖
+  2. client服务中增加 @FeignClient 注解的接口，接口中的方法请求服务提供方的接口
+  3. client服务调用 @FeignClient 接口中的方法，Feign创建Ribbon load balancer，调用Eureka中对应的服务。
+  4. 若要即成Hystrix Fallbacks，需要增加feign.hystrix.enabled=true，同时实现@FeignClient注解的接口，增加fallback的方法。
+```

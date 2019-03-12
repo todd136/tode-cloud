@@ -8,3 +8,5 @@ tode-cloud-democlient，基于spring-cloud-config、spring-cloud-netflix组件�
 Hystrix command and fallback方法应该同一个类中，同样的方法签名，仅可加异常处理的额外参数。
 
 增加使用Netflix Ribbon进行LoadBalancer调用远端服务的功能。
+
+增加使用Feign调用远端服务的功能。
